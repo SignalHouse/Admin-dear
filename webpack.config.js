@@ -1,27 +1,29 @@
 'use strict'
 
 const path = require('path');
-const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
   mode: 'development',
   entry: [
-    path.resolve(__dirname, 'src', 'app.js'),
+    path.resolve(__dirname, 'src', 'index.jsx'),
   ],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
   },
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+  },
   module: {
     rules: [
       {
-        test: /\.vue$/,
-        use: 'vue-loader',
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: 'babel-loader',
       },
       {
         test: /\.scss$/,
         use: [
-          'vue-style-loader',
           'css-loader',
           'postcss-loader',
           'sass-loader',
@@ -34,7 +36,4 @@ module.exports = {
     compress: true,
     port: 8080,
   },
-  plugins: [
-    new VueLoaderPlugin(),
-  ],
 };
